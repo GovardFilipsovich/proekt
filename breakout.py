@@ -14,6 +14,8 @@ from game import Game
 from paddle import Paddle
 from text_object import TextObject
 import colors
+# Changes from Kirill
+from menu import Menu
 
 special_effects = dict(
     long_paddle=(colors.ORANGE,
@@ -58,37 +60,11 @@ class Breakout(Game):
     def change_ball_speed(self, dy):
         self.ball.speed = (self.ball.speed[0], self.ball.speed[1] + dy)
 
-    def create_menu(self):
-        def on_play(button):
-            for b in self.menu_buttons:
-                self.objects.remove(b)
-
-            self.is_game_running = True
-            self.start_level = True
-
-        def on_quit(button):
-            self.game_over = True
-            self.is_game_running = False
-            self.game_over = True
-
-        for i, (text, click_handler) in enumerate((('PLAY', on_play), ('QUIT', on_quit))):
-            b = Button(c.menu_offset_x,
-                       c.menu_offset_y + (c.menu_button_h + 5) * i,
-                       c.menu_button_w,
-                       c.menu_button_h,
-                       text,
-                       click_handler,
-                       padding=5)
-            self.objects.append(b)
-            self.menu_buttons.append(b)
-            self.mouse_handlers.append(b.handle_mouse_event)
-
     def create_objects(self):
         self.create_bricks()
         self.create_paddle()
         self.create_ball()
         self.create_labels()
-        self.create_menu()
 
     def create_labels(self):
         self.score_label = TextObject(c.score_offset,
@@ -233,14 +209,13 @@ class Breakout(Game):
                 self.ball.speed = (-s[0], s[1])
 
             if brick.special_effect is not None:
-                # Reset previous effect if any
+                # Сброс эффектов
                 if self.reset_effect is not None:
                     self.reset_effect(self)
 
-                # Trigger special effect
                 self.effect_start_time = datetime.now()
                 brick.special_effect[0](self)
-                # Set current reset effect function
+                # Установка текущей функции сброса
                 self.reset_effect = brick.special_effect[1]
 
     def update(self):
@@ -257,7 +232,7 @@ class Breakout(Game):
             self.game_over = True
             return
 
-        # Reset special effect if needed
+        # Сброс спец. эффекта (если надо)
         if self.reset_effect:
             if datetime.now() - self.effect_start_time >= timedelta(seconds=c.effect_duration):
                 self.reset_effect(self)
@@ -278,7 +253,10 @@ class Breakout(Game):
 
 
 def main():
-    Breakout().run()
+    breakout = Breakout()
+    menu = Menu()
+    menu.create_menu(breakout)
+    menu.run()
 
 
 if __name__ == '__main__':
