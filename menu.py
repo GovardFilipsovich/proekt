@@ -1,7 +1,7 @@
 from game import Game
 import config as c
 from button import Button
-
+from choose_menu import Choose_menu
 class Menu(Game):
     def __init__(self):
         super().__init__('Breakout', c.screen_width, c.screen_height, c.background_image, c.frame_rate)
@@ -10,18 +10,18 @@ class Menu(Game):
     def create_menu(self, breakout):
         def on_play(button):
             self.game_over = False
-            breakout.__init__()
-            breakout.is_game_running = True
-            breakout.start_level = True
-            breakout.run()
+            menu = Choose_menu()
+            menu.create_menu(breakout)
+            menu.run()
 
         def on_quit(button):
             self.game_over = True
             self.is_game_running = False
             breakout.is_game_running = False
 
+        start_btns = (('PLAY', on_play), ('QUIT', on_quit))
 
-        for i, (text, click_handler) in enumerate((('PLAY', on_play), ('QUIT', on_quit))):
+        for i, (text, click_handler) in enumerate(start_btns):
             b = Button(c.menu_offset_x,
                        c.menu_offset_y + (c.menu_button_h + 5) * i,
                        c.menu_button_w,
