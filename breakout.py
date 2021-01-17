@@ -14,8 +14,6 @@ from game import Game
 from paddle import Paddle
 from text_object import TextObject
 import colors
-# Changes from Kirill
-from menu import Menu
 
 special_effects = dict(
     long_paddle=(colors.ORANGE,
@@ -252,12 +250,3 @@ class Breakout(Game):
         time.sleep(c.message_duration)
 
 
-def main():
-    breakout = Breakout()
-    menu = Menu()
-    menu.create_menu(breakout)
-    menu.run()
-
-
-if __name__ == '__main__':
-    main()

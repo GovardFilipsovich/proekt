@@ -7,17 +7,16 @@ class Menu(Game):
         super().__init__('Breakout', c.screen_width, c.screen_height, c.background_image, c.frame_rate)
         self.menu_buttons = []
 
-    def create_menu(self, breakout):
+    def create_menu(self):
         def on_play(button):
             self.game_over = False
             menu = Choose_menu()
-            menu.create_menu(breakout)
+            menu.create_menu()
             menu.run()
 
         def on_quit(button):
             self.game_over = True
             self.is_game_running = False
-            breakout.is_game_running = False
 
         start_btns = (('PLAY', on_play), ('QUIT', on_quit))
 
