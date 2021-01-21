@@ -1,4 +1,5 @@
 from menu import Menu
+from levels_menu import Levels_menu
 import config as c
 from button import Button
 from arcade import Arcade
@@ -11,8 +12,6 @@ class Choose_menu(Menu):
         
 
     def create_menu(self):
-        
-
         def on_arcade(button):
             breakout = Arcade()
             self.game_over = False
@@ -22,7 +21,11 @@ class Choose_menu(Menu):
             breakout.run()
 
         def on_levels(button):
-            pass
+            if self.c == 0:
+                l_menu = Levels_menu()
+                l_menu.create_menu()
+            l_menu.run()
+
 
         def on_menu(button):
             self.game_over = True

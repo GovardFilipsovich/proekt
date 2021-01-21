@@ -125,4 +125,4 @@ class Menu(Game):
             self.user_rec = TextObject(20, 30, lambda: str(res[0][0]), colors.WHITE, c.font_name, c.font_size)
             self.user_rec.draw(self.surface)
             self.objects.append(self.user_rec)
-        
+
